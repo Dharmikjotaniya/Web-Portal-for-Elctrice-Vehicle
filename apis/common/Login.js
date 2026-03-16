@@ -21,8 +21,11 @@ async function Login(req, res) {
             return res.status(403).json({ success: false, message: "Your account is blocked! Contact admin." });
         }
 
-        return res.status(200).json({ success: true, message: "Login successful!", userData });
+        const { user_password: _unused_pw, ...userWithoutPassword } = userData;
 
+        return res.status(200).json({
+            success: true, message: "Login successful!", userData: userWithoutPassword
+        });
     } catch (error) {
         console.error("Login.js:", error);
         return res.status(500).json({ success: false, message: "Something went wrong!" });
